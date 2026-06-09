@@ -1,0 +1,12 @@
+#!/bin/sh
+domain="deutschebahn.com"
+
+email="$(git config --list | grep user.email | awk -F'@' '{print $2}' | xargs)"
+echo $email
+if [ "${domain}" = "${email}" ] ; then
+  echo "You are using company domain as your email, proceeding with committing"
+  exit 0
+else
+  echo "You are using a NON-Company domain as your email. This commit will not be recorded. Please change it and then commit again"
+  exit 1
+fi
