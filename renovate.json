@@ -1,6 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", "group:recommended"],
-  "groupName": "{{manager}}",
-  "npm": { "enabled": false }
+  "extends": ["config:recommended"],
+  "automergeStrategy": "squash",
+  "rebaseWhen": "auto",
+  "minimumReleaseAge": "1 day",
+  "enabledManagers": ["gomod", "github-actions", "dockerfile"],
+
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "all minor and patch",
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "all major",
+      "automerge": false
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["indirect"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ],
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
+  "pinDigests": true
 }
