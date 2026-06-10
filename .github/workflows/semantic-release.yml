@@ -1,20 +1,24 @@
-name: build
+
+name: Semantic Release
 on:
   push:
     branches:
-    - 'main'
+      - main
 jobs:
-  release:
+  semantic-release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
     permissions:
       contents: write
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: CupOfTea696/gh-action-auto-release@v1.0.0
+      - name: Checkout
+        uses: actions/checkout@v5
+      - uses: actions/setup-node@v3
         with:
-          title: "Release: $version"
-          tag: "v$semver"
-          draft: false
-          regex: "/^Release: #{semver}$/i"
+          node-version: "lts/*"
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v6
+        with:
+          semantic_version: 17
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
