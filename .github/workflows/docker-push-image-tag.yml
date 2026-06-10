@@ -1,13 +1,11 @@
-name: docker-push-image-tag
+name: Check if image for release should be pushed
 
 on:
-  push:
-    tags:
-      - v**
+  schedule:
+    - cron: '0 * * * *' # every hour
 
 jobs:
-  docker:
-    runs-on: ubuntu-latest
+  check_new_image_to_publish:
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
@@ -15,31 +13,56 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
+      - name: Get Repo Tags
+        run: |
+          curl -s -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/tags \
+            > git-tags.json
+
+      - name: Get GHCR Image Tags
+        env:
+        run: |
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://${{ env.REGISTRY }}/v2/${{ github.repository }}/tags/list \
+            > ghcr-tags.json
+
+      - name: Find new tag without published image
+        id: find_tag
+        run: |
+          LAST_GIT_TAG=$(jq -r '.[].name' git-tags.json | head)
+          LAST_GHCR_IMAGE=$(jq -r '.tags[]' ghcr-tags.json |head )
+          
+          return=""
+          if [ "$LAST_GIT_TAG" != "$LAST_GHCR_IMAGE" ]; then
+            return="$LAST_GIT_TAG"
+          fi
+
+          echo "$return" >> $GITHUB_OUTPUT
+
       - name: Set up Docker Buildx
+        if: steps.find_missing.outputs.find_tag != ''
         uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
         with:
           install: true
           
       - name: Log in to the Container registry
+        if: steps.find_missing.outputs.find_tag != ''
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set release version
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
             
       - name: Build and push Docker image
+        if: steps.find_missing.outputs.find_tag != ''
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           push: true
           platforms: ${{ env.PLATFORMS }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.find_missing.outputs.find_tag }},${{ env.REGISTRY }}/${{ github.repository }}:latest
           labels: ${{ steps.meta.outputs.labels }}
