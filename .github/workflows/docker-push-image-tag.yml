@@ -1,8 +1,9 @@
 name: docker-push-image-tag
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - v**
 
 jobs:
   docker:
