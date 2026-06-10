@@ -1,4 +1,4 @@
-FROM golang:1.24@sha256:d2d2bc1c84f7e60d7d2438a3836ae7d0c847f4888464e7ec9ba3a1339a1ee804 as gobuilder
+FROM golang:1.25 as gobuilder
 WORKDIR /app
 COPY ./server .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./aws-secrets-manager-ui .;
