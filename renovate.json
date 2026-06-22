@@ -4,8 +4,6 @@
   "automergeStrategy": "squash",
   "rebaseWhen": "auto",
   "minimumReleaseAge": "1 day",
-  "enabledManagers": ["gomod", "github-actions", "dockerfile"],
-
   "packageRules": [
     {
       "matchUpdateTypes": ["patch", "minor"],
