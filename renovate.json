@@ -28,6 +28,17 @@
       "rangeStrategy": "bump"
     }
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^.+\\.yml$/"],
+      "matchStrings": [
+          "#\\s*renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?( registryUrl=(?<registryUrl>\\S+))?\\s+go-version:\\s*['\"]?(?<currentValue>\\S+)"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{/if}}"
+    }
+
+  ],
   "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
   "pinDigests": true
 }
