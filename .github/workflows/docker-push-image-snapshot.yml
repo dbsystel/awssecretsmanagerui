@@ -1,9 +1,10 @@
 name: docker-push-image-snapshot
 
+# publish snapshot images only if branch name container image
 on:
   push:
     branches:
-      - '**'
+      - '**image**'
 
 jobs:
   docker:
