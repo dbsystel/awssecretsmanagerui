@@ -4,6 +4,7 @@
   "automergeStrategy": "squash",
   "rebaseWhen": "auto",
   "minimumReleaseAge": "1 day",
+  "ignorePaths": ["ui/**"],
   "packageRules": [
     {
       "matchUpdateTypes": ["patch", "minor"],
@@ -20,6 +21,11 @@
       "matchDepTypes": ["indirect"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "matchDepNames": ["go"],
+      "matchDepTypes": ["golang"],
+      "rangeStrategy": "bump"
     }
   ],
   "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
