@@ -9,7 +9,8 @@
     {
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "all minor and patch",
-      "automerge": false
+      "automerge": true,
+      "automergeType": "pr"
     },
     {
       "matchUpdateTypes": ["major"],
