@@ -7,7 +7,7 @@
   "ignorePaths": ["ui/**"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchUpdateTypes": ["patch", "minor", "pin", "digest"],
       "groupName": "all minor and patch",
       "automerge": true,
       "automergeType": "pr"
