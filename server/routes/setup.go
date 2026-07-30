@@ -3,7 +3,7 @@ package routes
 import (
 	"embed"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v5"
 
 	"github.com/itsmethemojo/awssecretsmanagerui/server/actions"
 )
