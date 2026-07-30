@@ -7,7 +7,7 @@
   "ignorePaths": ["ui/**"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["pin", "digest"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest"],
       "groupName": "pin and digest",
       "automerge": true,
       "automergeType": "pr",
