@@ -7,6 +7,13 @@
   "ignorePaths": ["ui/**"],
   "packageRules": [
     {
+      "matchUpdateTypes": ["pin", "digest"],
+      "groupName": "pin and digest",
+      "automerge": true,
+      "automergeType": "pr",
+      "minimumReleaseAge": "0 days"
+    },
+    {
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "all minor and patch",
       "automerge": true,
