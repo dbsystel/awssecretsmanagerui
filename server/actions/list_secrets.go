@@ -43,20 +43,23 @@ func GetFilterNames() []string {
 	return filterNames
 }
 
-func getTagFilter() types.Filter {
+func getTagFilter() []types.Filter {
 	//TODO this tiny part can be unit tested
-	//TODO we can also check again if it contains =
 	tag := os.Getenv("FILTER_TAG")
 	tagKeyAndValue := strings.SplitN(tag, "=", 2)
 	key := tagKeyAndValue[0]
-	//TODO should add a second filter that checks also the value of the tag
-	//value := tagKeyAndValue[1]
-	nameFilters := types.Filter{
-		Key:   types.FilterNameStringTypeTagKey,
-		Values: []string{key},
-	}
+	value := tagKeyAndValue[1]
 
-	return nameFilters
+	return []types.Filter{
+		{
+			Key:    types.FilterNameStringTypeTagKey,
+			Values: []string{key},
+		},
+		{
+			Key:    types.FilterNameStringTypeTagValue,
+			Values: []string{value},
+		},
+	}
 }
 
 func getNamesFilter(listFilterNames []string) types.Filter {
@@ -103,9 +106,7 @@ func GetAPageSecrets(svc *secretsmanager.Client, token *string, maxResult int32)
 			getNamesFilter(GetFilterNames()),
 		}
 	} else if hasTagFilter() {
-		input.Filters = []types.Filter{
-			getTagFilter(),
-		}
+		input.Filters = getTagFilter()
 	}
 
 	result, err := svc.ListSecrets(context.TODO(), input)
