@@ -63,7 +63,7 @@ const tableColumns = (
         )
     },
     {
-      title: 'Rorated at',
+      title: 'Rotated at',
       className: styles.borderCell,
       render: (r) =>
         r.LastRotatedDate ? date.formatDateTime(r.LastRotatedDate) : '-'
