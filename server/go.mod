@@ -1,11 +1,11 @@
 module github.com/itsmethemojo/awssecretsmanagerui/server
 
-go 1.27.2
+go 1.27.3
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.47.3
 	github.com/aws/aws-sdk-go-v2/config v1.33.9
-	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.50.4
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.50.5
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/labstack/echo-jwt/v4 v4.4.0
 	github.com/labstack/echo/v4 v4.16.0
