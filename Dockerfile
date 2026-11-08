@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./server .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./aws-secrets-manager-ui .;
 
-FROM alpine:latest@sha256:3f4d6b32e26703c6082839234f43769d5046b3ac7c910033911d1e71d8cd630a
+FROM alpine:latest@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=gobuilder /app/aws-secrets-manager-ui .
