@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	echojwt "github.com/labstack/echo-jwt/v4"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echojwt "github.com/labstack/echo-jwt/v5"
+	"github.com/labstack/echo/v5"
+	"github.com/labstack/echo/v5/middleware"
 	"github.com/labstack/gommon/log"
 
 	"github.com/itsmethemojo/awssecretsmanagerui/server/auth"
